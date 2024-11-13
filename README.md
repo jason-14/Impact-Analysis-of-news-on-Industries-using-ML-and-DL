@@ -1,37 +1,29 @@
-This architecture is designed to analyze the impact of financial news on stock market indices through a three-stage process: sentiment analysis, industry
-classification, and impact assessment. The system processes financial news articles, determines their sentiment and industry relevance, and then correlates this
-information with historical index data to assess the news’ impact on market trends.
+Financial News Impact Analysis on Stock Market Indices
+This project analyzes the impact of financial news on stock market indices, focusing on three main stages: Sentiment Analysis, Industry Classification, and Impact Assessment. This architecture processes financial news articles, assigns sentiment scores and industry relevance, and correlates this information with historical stock index data to predict market trends.
 
-Architecture Components and Flow
+Architecture Components and Workflow
 1. Data Ingestion Layer
-• Dataset to train sentiment analysis models: https://www.kaggle.com/datasets/ankurzing/sentiment-analysis-for-financial-news
-• Gathers historical index data from Angel One Smartapi
-  Sentiment Analysis Module
-    • Preprocesses news articles
-        for non-ML models: 
-        for ML models: tokenization, stop word removal
-    • Employs multiple sentiment analysis models:
-    – Lexicon-based: VADER, FINVADER
-    – Machine Learning: SVM, CATBOOST
-    – Deep Learning: FinBERT
-    • Outputs sentiment scores for each news article
-Selected FinBERT for the highest accuracy of 89%.
+  Sentiment Analysis Dataset: Trained using the Financial News Sentiment Dataset.
+  Historical Index Data: Collected using the Angel One SmartAPI to fetch timestamped open, high, low, close, and volume data for   the      NIFTY index.
 
-2. Industry Classification Module
-  The lexicon-based classification was done since no existing dataset was found to train a model.
-  classification categories: IT, Metal, Auto, Bank, Oil and Gas, FMCG, Financial Services, Media, Pharmaceutical, Realty, Healthcare, Consumer Durables, Others
-  Assign industry categories to each news article
+2. Sentiment Analysis Module
+  Preprocessing: News articles are preprocessed using URL removal, stop word removal, removing non-word and non-whitespace characters, 
+  stemming, Lemmatization, tokenization and vectorization.
+  Model Selection: We evaluated multiple models to determine the best sentiment analyzer:
+  Lexicon-based Models: VADER, finVADER
+  Machine Learning Models: SVM (linear, RBF, polynomial, and sigmoid kernels), CatBoost
+  Deep Learning Model: finBERT
+  Result: finBERT achieved the highest accuracy of 89%, making it the chosen model for sentiment analysis.
 
-3. Data Integration Layer
-  Combines outputs from Sentiment scores of specific industries with historical data of the inde
+3. Industry Classification Module
+  Classification Categories: Articles are categorized into the following industries: auto, bank, financial services, FMCG, healthcare,      IT, media, metal, pharmaceutical, realtor, consumer durables, and oil and gas.
+  Classification Approach: Lexicon-based classification was implemented due to the absence of a labelled training dataset.
 
-4. Impact Assessment Module using time-series analysis
-   dataset for final analysis with title and date: https://www.kaggle.com/datasets/hkapoor/indian-financial-news-articles-20032020
-  • Utilizes time series analysis techniques LSTM to model
-  relationships between:
-  – Sentiment scores
-  – Industry classifications
-  – Historical index movements
-  • Generates impact assessments and predictions for different industries and overall market trends
+  Lexicon-based classification due to lack of appropriate dataset to train a model.
 
+4. Data Integration Layer
+  Combines sentiment scores and industry classifications with historical NIFTY index data. This enriched dataset facilitates time-series    analysis and prediction.
 
+5. Impact Assessment Module
+  Model Selection: Long Short-Term Memory (LSTM) network is used to model the relationships between sentiment scores, industry              classifications, and historical index movements.
+  Prediction Output: The LSTM model generates impact assessments and predictions for different industries and overall market trends based   on the analyzed news and historical data.
